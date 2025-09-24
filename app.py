@@ -145,6 +145,14 @@ def get_historical_weather_data(city_name, days=3):
 # --- Streamlit UI ---
 st.set_page_config(layout="wide")
 
+# --- カスタムCSSの読み込み ---
+def load_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
+load_css("style.css")
+
+
 st.title("Aina Weather アプリ")
 
 # サイドバー
@@ -152,14 +160,14 @@ st.sidebar.title("ナビゲーション")
 page = st.sidebar.radio("ページを選択", ["ダッシュボード", "データ可視化", "天気予想ゲーム"])
 
 # --- テスト用: 天気取得と保存 ---
-st.sidebar.subheader("テスト機能")
-test_city = st.sidebar.text_input("テスト都市名を入力", "Tokyo")
-if st.sidebar.button("天気取得＆保存"):
-    with st.spinner(f"{test_city}の天気データを取得中..."):
-        weather = get_weather_data(test_city)
-        if weather:
-            st.sidebar.write("取得データ:", weather)
-            save_weather_to_firestore(test_city, weather)
+with st.sidebar.expander("テスト機能"):
+    test_city = st.text_input("テスト都市名を入力", "Tokyo")
+    if st.button("天気取得＆保存"):
+        with st.spinner(f"{test_city}の天気データを取得中..."):
+            weather = get_weather_data(test_city)
+            if weather:
+                st.write("取得データ:", weather)
+                save_weather_to_firestore(test_city, weather)
 
 if page == "ダッシュボード":
     # --- ダッシュボードページ ---
