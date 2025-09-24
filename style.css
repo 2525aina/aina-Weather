@@ -1,0 +1,22 @@
+/* For st.columns */
+div[data-testid="stHorizontalBlock"] {
+    @media (max-width: 768px) {
+        flex-wrap: wrap;
+    }
+}
+
+/* st.metricのレスポンシブ対応 */
+div[data-testid="stMetric"] {
+    /* スマートフォンでの見栄えを調整 */
+    @media (max-width: 768px) {
+        padding: 10px;
+    }
+}
+
+/* 天気アイコンのレスポンシブ対応 */
+div[data-testid="stImage"] > img {
+    /* スマートフォンでアイコンが大きくなりすぎないように調整 */
+    @media (max-width: 768px) {
+        max-width: 80px;
+    }
+}
