@@ -1,0 +1,10 @@
+# Virtual environment
+venv/
+
+# macOS specific files
+.DS_Store
+
+# Sensitive credentials
+aina-weather-firebase-adminsdk-fbsvc-5e1732e984.json
+openweathermap.org.api_keys.txt
+.streamlit/secrets.toml
