@@ -1,7 +1,7 @@
 import streamlit as st
 from services.firebase_service import get_all_cities_from_firestore
 
-st.title("ダッシュボード")
+st.title("📊 ダッシュボード")
 
 all_cities_data = get_all_cities_from_firestore()
 
