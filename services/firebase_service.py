@@ -52,9 +52,11 @@ def get_or_create_user_profile(user_id):
         user_ref.set(initial_profile)
         return initial_profile
 
+from services.sidebar_utils import normalize_city_name_for_storage
+
 # --- Firestoreへのデータ保存関数 ---
 def save_weather_to_firestore(city_name, weather_data):
-    city_name_normalized = city_name.lower()
+    city_name_normalized = normalize_city_name_for_storage(city_name)
     try:
         # citiesコレクションに最新データを保存（上書き）
         doc_ref = db.collection("cities").document(city_name_normalized)
@@ -67,8 +69,10 @@ def save_weather_to_firestore(city_name, weather_data):
         db.collection("historical_weather").add(historical_data)
 
         st.success(f"{city_name}の天気データをFirestoreに保存しました。")
+        return {"type": "success", "content": f"{city_name}の天気データをFirestoreに保存しました。"}
     except Exception as e:
         st.error(f"Firestoreへのデータ保存中にエラーが発生しました: {e}")
+        return {"type": "error", "content": f"Firestoreへのデータ保存中にエラーが発生しました: {e}"}
 
 # --- Firestoreから全都市のデータを取得する関数 ---
 def get_all_cities_from_firestore():
@@ -100,3 +104,22 @@ def get_historical_weather_data(city_name, days=3):
         df = df.sort_values("last_update")
         return df
     return pd.DataFrame()
+
+# --- Firestoreから都市データを削除する関数 ---
+def delete_city_from_firestore(city_name):
+    try:
+        # citiesコレクションから削除
+        db.collection("cities").document(city_name).delete()
+
+        # historical_weatherコレクションから関連データを削除
+        # クエリで削除するため、バッチ処理またはトランザクションが必要になる場合がある
+        # ここでは簡易的にストリームで削除するが、大量データの場合は注意
+        historical_ref = db.collection("historical_weather").where("city_name", "==", city_name).stream()
+        for doc in historical_ref:
+            doc.reference.delete()
+
+        st.success(f"{city_name}のデータをFirestoreから削除しました。")
+        return {"type": "success", "content": f"{city_name}のデータをFirestoreから削除しました。"}
+    except Exception as e:
+        st.error(f"Firestoreからのデータ削除中にエラーが発生しました: {e}")
+        return {"type": "error", "content": f"Firestoreからのデータ削除中にエラーが発生しました: {e}"}

@@ -6,9 +6,11 @@ from datetime import datetime
 OPENWEATHERMAP_API_KEY = st.secrets["openweathermap"]["api_key"]
 OPENWEATHERMAP_BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
 
+from services.sidebar_utils import normalize_city_name_for_storage
+
 # --- 天気データ取得関数 ---
 def get_weather_data(city_name):
-    city_name_normalized = city_name.lower()
+    city_name_normalized = normalize_city_name_for_storage(city_name)
     params = {
         "q": city_name_normalized,
         "appid": OPENWEATHERMAP_API_KEY,
@@ -21,7 +23,7 @@ def get_weather_data(city_name):
         data = response.json()
 
         if data["cod"] != 200:
-            st.error(f"天気データの取得に失敗しました: {data['message']}")
+            st.error(f"天気データの取得に失敗しました: {data['message']}. 都市名が見つからない可能性があります。例: Tokyo, JP")
             return None
 
         weather_info = {
@@ -35,7 +37,7 @@ def get_weather_data(city_name):
         }
         return weather_info
     except requests.exceptions.RequestException as e:
-        st.error(f"API通信エラーが発生しました: {e}")
+        st.error(f"API通信エラーが発生しました: {e}. 都市名が見つからない可能性があります。例: Tokyo, JP")
         return None
     except KeyError as e:
         st.error(f"APIレスポンスの解析エラーが発生しました: {e}. レスポンス: {data}")
