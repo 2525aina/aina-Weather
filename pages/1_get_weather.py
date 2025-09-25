@@ -2,8 +2,7 @@ import streamlit as st
 import time
 from services.weather_service import get_weather_data
 from services.firebase_service import save_weather_to_firestore, get_all_cities_from_firestore, delete_city_from_firestore
-from services.sidebar_utils import normalize_city_name_for_storage
-
+ 
 # ... (省略) ...
 
 st.title("お天気取得")
@@ -22,9 +21,9 @@ selected_city_option = st.selectbox(
 
 if selected_city_option == "新しい都市を入力":
     new_city_input = st.text_input("新しい都市名を入力", "Tokyo")
-    city_to_process = normalize_city_name_for_storage(new_city_input)
+    city_to_process = new_city_input
 else:
-    city_to_process = normalize_city_name_for_storage(selected_city_option)
+    city_to_process = selected_city_option
 
 if st.button("天気取得＆保存"):
     if not city_to_process:

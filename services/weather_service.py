@@ -6,13 +6,10 @@ from datetime import datetime
 OPENWEATHERMAP_API_KEY = st.secrets["openweathermap"]["api_key"]
 OPENWEATHERMAP_BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
 
-from services.sidebar_utils import normalize_city_name_for_storage
-
 # --- 天気データ取得関数 ---
 def get_weather_data(city_name):
-    city_name_normalized = normalize_city_name_for_storage(city_name)
     params = {
-        "q": city_name_normalized,
+        "q": city_name,
         "appid": OPENWEATHERMAP_API_KEY,
         "units": "metric", # 摂氏で取得
         "lang": "ja" # 日本語で取得
