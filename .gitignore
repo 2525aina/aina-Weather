@@ -8,3 +8,6 @@ venv/
 aina-weather-firebase-adminsdk-fbsvc-5e1732e984.json
 openweathermap.org.api_keys.txt
 .streamlit/secrets.toml
+
+# Python cache files
+*.pyc
