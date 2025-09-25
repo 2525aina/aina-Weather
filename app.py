@@ -1,12 +1,5 @@
 import streamlit as st
 
-
-
-
-
-
-
-
 # --- Streamlit UI ---
 st.set_page_config(layout="wide")
 
@@ -16,13 +9,4 @@ def load_css(file_name):
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
 load_css("style.css")
-st.switch_page("pages/1_お天気取得.py")
-
-
-
-st.switch_page("pages/1_お天気取得.py")
-
-
-
-
-
+st.switch_page("pages/1_get_weather.py")

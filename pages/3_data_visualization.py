@@ -2,7 +2,7 @@ import streamlit as st
 import plotly.graph_objects as go
 from services.firebase_service import get_all_cities_from_firestore, get_historical_weather_data
 
-st.title("過去の天気データ可視化")
+st.title("データ可視化")
 
 all_cities_data = get_all_cities_from_firestore()
 if not all_cities_data:
