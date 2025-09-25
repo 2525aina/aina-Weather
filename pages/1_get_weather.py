@@ -5,7 +5,7 @@ from services.firebase_service import save_weather_to_firestore, get_all_cities_
  
 # ... (省略) ...
 
-st.title("お天気取得")
+st.title("📡 お天気取得")
 
 st.write("指定した都市の天気データを取得し、Firestoreに保存します。")
 

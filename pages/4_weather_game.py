@@ -5,7 +5,7 @@ from datetime import datetime
 from services.firebase_service import db, get_current_user, get_or_create_user_profile, get_all_cities_from_firestore, DESCENDING
 from services.weather_service import get_weather_data
 
-st.title("天気予想ゲーム")
+st.title("🎮 天気予想ゲーム")
 
 current_user_id = get_current_user()
 current_user_profile = get_or_create_user_profile(current_user_id)
