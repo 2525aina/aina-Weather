@@ -8,8 +8,9 @@ OPENWEATHERMAP_BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
 
 # --- 天気データ取得関数 ---
 def get_weather_data(city_name):
+    city_name_normalized = city_name.lower()
     params = {
-        "q": city_name,
+        "q": city_name_normalized,
         "appid": OPENWEATHERMAP_API_KEY,
         "units": "metric", # 摂氏で取得
         "lang": "ja" # 日本語で取得

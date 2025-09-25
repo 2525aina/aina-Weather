@@ -54,15 +54,16 @@ def get_or_create_user_profile(user_id):
 
 # --- Firestoreへのデータ保存関数 ---
 def save_weather_to_firestore(city_name, weather_data):
+    city_name_normalized = city_name.lower()
     try:
         # citiesコレクションに最新データを保存（上書き）
-        doc_ref = db.collection("cities").document(city_name)
+        doc_ref = db.collection("cities").document(city_name_normalized)
         doc_ref.set(weather_data)
 
         # historical_weatherコレクションに履歴データを追加
         # ドキュメントIDは自動生成
         historical_data = weather_data.copy()
-        historical_data["city_name"] = city_name
+        historical_data["city_name"] = city_name_normalized
         db.collection("historical_weather").add(historical_data)
 
         st.success(f"{city_name}の天気データをFirestoreに保存しました。")
